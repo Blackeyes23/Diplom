@@ -1,0 +1,45 @@
+﻿<Window x:Class="Diplom.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom"
+        mc:Ignorable="d"
+        Height="450" Width="800">
+    <Border BorderBrush="Blue" BorderThickness="15" Padding="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Width="150" Stretch="UniformToFill" 
+                   Margin="10,10,10,225" Grid.Column="0"/>
+
+
+            <Grid Grid.Column="1" Margin="20,20,20,213">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Имя:" FontSize="16" FontWeight="Bold" Grid.Row="0"/>
+                <TextBlock x:Name="NameText" FontSize="16" Grid.Row="0" Margin="100,0,0,0"/>
+
+                <TextBlock Text="Фамилия:" FontSize="16" FontWeight="Bold" Grid.Row="1"/>
+                <TextBlock x:Name="SurnameText" FontSize="16" Grid.Row="1" Margin="100,0,0,0"/>
+
+                <TextBlock Text="Группа:" FontSize="16" FontWeight="Bold" Grid.Row="2"/>
+                <TextBlock x:Name="GroupText" FontSize="16" Grid.Row="2" Margin="100,0,0,0"/>
+
+                <TextBlock Text="Роль:" FontSize="16" FontWeight="Bold" Grid.Row="3"/>
+                <TextBlock x:Name="RoleText" FontSize="16" Grid.Row="3" Margin="100,0,0,0"/>
+            </Grid>
+            <Button Grid.Column="1" Content="Теория" HorizontalAlignment="Left" Margin="128,193,0,0" VerticalAlignment="Top" Click="Button_Click" Height="35" Width="77"/>
+            <Button Grid.Column="1" Content="Практика" HorizontalAlignment="Left" Margin="225,193,0,0" VerticalAlignment="Top" Click="Button_Click_1" Height="35" Width="77"/>
+        </Grid>
+    </Border>
+</Window>
