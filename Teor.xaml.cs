@@ -1,57 +1,64 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using DocumentFormat.OpenXml.Packaging;
+﻿using Diplom.Model;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Win32;
+using System;
+using System.IO;
+using System.Windows;
 
 namespace Diplom
 {
     public partial class Teor : Window
     {
+        private string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "uploads");
+
         public Teor()
         {
             InitializeComponent();
+            Directory.CreateDirectory(uploadPath); // Создаем папку, если нет
         }
 
         private void LoadDocxButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Документы Word (*.docx)|*.docx",
-                Title = "Выберите файл"
+                Filter = "Документы Word (*.docx)|*.docx"
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                try
-                {
-                    string filePath = openFileDialog.FileName;
-                    string text = ExtractTextFromDocx(filePath);
-                    DisplayText(text);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ошибка загрузки документа:\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                string fileName = Path.GetFileName(openFileDialog.FileName);
+                string destinationPath = Path.Combine(uploadPath, fileName);
+                File.Copy(openFileDialog.FileName, destinationPath, true);
+
+                // Сохранение пути в базу данных
+                SaveFilePathToDatabase(fileName, destinationPath);
+
+                MessageBox.Show("Файл успешно загружен!");
             }
         }
 
-        private string ExtractTextFromDocx(string filePath)
+        private void SaveFilePathToDatabase(string title, string filePath)
         {
-            using (WordprocessingDocument doc = WordprocessingDocument.Open(filePath, false))
+            using (var context = new VPKSContext()) // Замени на свой DbContext
             {
-                Body body = doc.MainDocumentPart.Document.Body;
-                return body.InnerText;
+                var document = new Documents // Соответствует классу из Model
+                {
+                    Title = title,
+                    FilePath = filePath,
+                        UploaderId = 4 // ID существующего пользователя в таблице Users
+
+                };
+
+                context.Documents.Add(document);
+                context.SaveChanges();
             }
         }
 
-        private void DisplayText(string text)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DocxTextBox.Document.Blocks.Clear();
-            DocxTextBox.Document.Blocks.Add(new System.Windows.Documents.Paragraph(new System.Windows.Documents.Run(text)));
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

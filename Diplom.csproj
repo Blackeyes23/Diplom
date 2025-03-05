@@ -194,12 +194,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddTest.xaml.cs">
+      <DependentUpon>AddTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin.xaml.cs">
+      <DependentUpon>Admin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdminAddUserWindow.xaml.cs">
+      <DependentUpon>AdminAddUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Documents.cs" />
+    <Compile Include="Model\Gruppa.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\Subjects.cs" />
+    <Compile Include="Model\TestResults.cs" />
+    <Compile Include="Model\Tests.cs" />
+    <Compile Include="Model\Users.cs" />
+    <Compile Include="Model\VPKSContext.cs" />
     <Compile Include="Praktika.xaml.cs">
       <DependentUpon>Praktika.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Prepod.xaml.cs">
+      <DependentUpon>Prepod.xaml</DependentUpon>
     </Compile>
     <Compile Include="Teor.xaml.cs">
       <DependentUpon>Teor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TeorStud.xaml.cs">
+      <DependentUpon>TeorStud.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AddTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminAddUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Main.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,16 +258,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Prepod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Teor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TeorStud.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Gruppa.cs" />
-    <Compile Include="Model\Role.cs" />
-    <Compile Include="Model\Users.cs" />
-    <Compile Include="Model\VPKSContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

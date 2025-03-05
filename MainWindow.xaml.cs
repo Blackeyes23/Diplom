@@ -1,23 +1,10 @@
 ﻿using Diplom.Model;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Diplom
 {
-
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -25,43 +12,44 @@ namespace Diplom
             InitializeComponent();
         }
 
-
-
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string login = Login.Text;
-            string password = Password.Text;
+            string password = Password.Text; // Используем PasswordBox для пароля
 
             using (var context = new VPKSContext()) // Создаем экземпляр контекста
             {
-                var user = context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
-                var admin = context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
-                if (login =="adm" && password=="adm")
-                {
+                var user = context.Users
+                    .Include(u => u.Role) // Загружаем связанную роль
+                    .FirstOrDefault(u => u.Login == login && u.Password == password);
 
-                    MessageBox.Show("Вы вошли как админ", "Успешно", MessageBoxButton.OK);
-                    Main main = new Main(user);
-                    this.Close();
-                    main.Show();
+                if (user != null)
+                {
+                    MessageBox.Show($"Вы вошли как {user.Role.Name}", "Успешно", MessageBoxButton.OK);
+
+                    // Открываем соответствующее окно по роли
+                    switch (user.RoleId)
+                    {
+                        case 1:
+                            new Main(user).Show();
+                            break;
+                        case 2:
+                            new Admin(user).Show();
+                            break;
+                        case 3:
+                            new Prepod(user).Show();
+                            break;
+                        default:
+                            MessageBox.Show("Неизвестная роль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                    }
+
+                    this.Close(); // Закрываем окно авторизации
                 }
                 else
                 {
-                    if (user != null)
-                    {
-
-                        MessageBox.Show("Вы вошли как студент", "Успешно", MessageBoxButton.OK);
-                        Main main = new Main(admin);
-                        this.Close();
-                        main.Show();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                
-                
             }
         }
     }

@@ -9,6 +9,12 @@ namespace Diplom.Model
 {
     public partial class Users
     {
+        public Users()
+        {
+            Documents = new HashSet<Documents>();
+            TestResults = new HashSet<TestResults>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -19,5 +25,7 @@ namespace Diplom.Model
 
         public virtual Gruppa Gruppa { get; set; }
         public virtual Role Role { get; set; }
+        public virtual ICollection<Documents> Documents { get; set; }
+        public virtual ICollection<TestResults> TestResults { get; set; }
     }
 }

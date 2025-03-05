@@ -18,17 +18,26 @@ namespace Diplom
             RoleText.Text = user.Role != null ? user.Role.Name.ToString() : "Не указано";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Teor teor = new Teor();
-            teor.Show();
-            this.Close();
-        }
+        
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Praktika praktika = new Praktika();
             praktika.Show();
+            this.Close();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            TeorStud teorStud= new TeorStud();
+            teorStud.Show();
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
     }

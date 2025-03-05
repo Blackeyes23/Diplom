@@ -19,8 +19,12 @@ namespace Diplom.Model
         {
         }
 
+        public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<Gruppa> Gruppa { get; set; }
         public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<Subjects> Subjects { get; set; }
+        public virtual DbSet<TestResults> TestResults { get; set; }
+        public virtual DbSet<Tests> Tests { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,11 +38,73 @@ namespace Diplom.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Documents>(entity =>
+            {
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.UploadDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Uploader)
+                    .WithMany(p => p.Documents)
+                    .HasForeignKey(d => d.UploaderId)
+                    .HasConstraintName("FK__Documents__Uploa__4AB81AF0");
+            });
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Subjects>(entity =>
+            {
+                entity.HasIndex(e => e.Name)
+                    .HasName("UQ__Subjects__737584F6B8279B1D")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<TestResults>(entity =>
+            {
+                entity.Property(e => e.GivenAnswer)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.Test)
+                    .WithMany(p => p.TestResults)
+                    .HasForeignKey(d => d.TestId)
+                    .HasConstraintName("FK__TestResul__TestI__6383C8BA");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TestResults)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__TestResul__UserI__628FA481");
+            });
+
+            modelBuilder.Entity<Tests>(entity =>
+            {
+                entity.Property(e => e.CorrectAnswer)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Question).IsRequired();
+
+                entity.HasOne(d => d.Subject)
+                    .WithMany(p => p.Tests)
+                    .HasForeignKey(d => d.SubjectId)
+                    .HasConstraintName("FK__Tests__SubjectId__5FB337D6");
             });
 
             modelBuilder.Entity<Users>(entity =>
