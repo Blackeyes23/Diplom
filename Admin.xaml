@@ -5,27 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
-        Title="Admin" Height="450" Width="800">
-    <Border BorderBrush="Blue" BorderThickness="15" Padding="10">
+        Title="Admin"
+        Height="450" Width="800"
+        MinHeight="400" MinWidth="600"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen"
+        Background="SkyBlue">
+
+    <Border BorderBrush="Blue" BorderThickness="10" Padding="10">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Width="150" Stretch="UniformToFill" 
-                   Margin="10,10,10,225" Grid.Column="0"/>
+            <!-- Фото пользователя -->
+            <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Width="150" Height="150"
+                   Stretch="UniformToFill" Margin="10" Grid.Column="0"/>
 
-            <Grid Grid.Column="1" Margin="20,20,20,213">
+            <!-- Информация -->
+            <Grid Grid.Column="1" Margin="20">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Имя:" FontSize="16" FontWeight="Bold" Grid.Row="0"/>
-                <TextBlock x:Name="NameText" FontSize="16" Grid.Row="0" Margin="100,0,0,0"/>
+                <TextBlock Text="Имя:" FontSize="16" FontWeight="Bold"/>
+                <TextBlock x:Name="NameText" FontSize="16" Margin="100,0,0,0"/>
 
                 <TextBlock Text="Фамилия:" FontSize="16" FontWeight="Bold" Grid.Row="1"/>
                 <TextBlock x:Name="SurnameText" FontSize="16" Grid.Row="1" Margin="100,0,0,0"/>
@@ -36,8 +45,12 @@
                 <TextBlock Text="Роль:" FontSize="16" FontWeight="Bold" Grid.Row="3"/>
                 <TextBlock x:Name="RoleText" FontSize="16" Grid.Row="3" Margin="100,0,0,0"/>
             </Grid>
-            <Button Grid.Column="1" Content="Добавить пользователя" HorizontalAlignment="Left" Margin="120,193,0,0" VerticalAlignment="Top" Click="OpenAddUserWindow" Height="35" Width="151"/>
-            <Button Grid.Column="1" Content="Выйти" HorizontalAlignment="Left" Margin="449,210,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+
+            <!-- Кнопки -->
+            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Button Content="Добавить пользователя" Click="OpenAddUserWindow" Height="40" Width="180" Margin="10"/>
+                <Button Content="Выйти" Click="Button_Click" Height="40" Width="120" Margin="10"/>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

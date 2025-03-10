@@ -66,11 +66,22 @@ namespace Diplom
             RoleText.Text = user.Role != null ? user.Role.Name.ToString() : "Не указано";
         }
 
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // Открытие главного окна
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            this.Close();
+
+            // Закрытие всех окон, кроме главного
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window != mainWindow)
+                {
+                    window.Close();
+                }
+            }
         }
+
     }
 }

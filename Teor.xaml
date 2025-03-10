@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
         Height="450" Width="800">
-    <Border BorderBrush="Blue" BorderThickness="15" Padding="10">
+    <Border BorderBrush="Blue" BorderThickness="15" Padding="10" Background="SkyBlue">
 
         <Grid>
             <StackPanel Margin="10">
                 <Button Content="Загрузить DOCX" Click="LoadDocxButton_Click" Width="150" Height="30" Margin="0,0,0,10"/>
                 <Button Content="Выйти" Click="Button_Click" Width="150" Height="30"/>
-                <RichTextBox x:Name="DocxTextBox" Width="Auto" Height="300"/>
+                <RichTextBox x:Name="DocxTextBox" Width="Auto" Height="300" Background="Aquamarine"/>
             </StackPanel>
         </Grid>
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using Diplom.Model;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -12,9 +13,11 @@ namespace Diplom
         public Main(Diplom.Model.Users user)
         {
             InitializeComponent();
-            _currentUser = user;  
-            DisplayUserInfo(user); 
+            _currentUser = user;
+            DisplayUserInfo(user);
+            LoadUserResults(user); // Добавьте этот вызов
         }
+
 
 
         private void DisplayUserInfo(Diplom.Model.Users user)
@@ -51,40 +54,69 @@ namespace Diplom
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // Открытие главного окна
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            this.Close();
+
+            // Закрытие всех окон, кроме главного
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window != mainWindow)
+                {
+                    window.Close();
+                }
+            }
         }
+
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+
+            // Проверяем, открыто ли уже окно Teor
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is Praktika)
+                {
+                    window.Activate(); // Переключаемся на уже открытое окно
+                    return; // Прекращаем выполнение метода
+                }
+            }
             if (_currentUser != null)
             {
                 new Praktika(_currentUser).Show();
-                this.Close();
+               
             }
             else
             {
                 MessageBox.Show("Ошибка: пользователь не определён!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void LoadUserResults(Model.Users user)
+        private void LoadUserResults(Diplom.Model.Users user)
         {
-            using (var context = new VPKSContext())
+            try
             {
-                var results = context.TestResults
-                    .Where(r => r.UserId == user.Id)
-                    .Select(r => new
-                    {
-                        TestName = r.Test.Question,
-                        Score = r.Score,
-                        Correct = r.IsCorrect ? "✔" : "✘"
-                    })
-                    .ToList();
+                using (var context = new VPKSContext())
+                {
+                    var results = context.TestResults
+                        .Where(r => r.UserId == user.Id)
+                        .Select(r => new
+                        {
+                            TestName = r.Test.Question,
+                            Score = r.Score,
+                            Correct = r.IsCorrect ? "✔" : "✘"
+                        })
+                        .ToList();
 
-                ResultsList.ItemsSource = results;
+                    ResultsList.ItemsSource = results;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке результатов: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
 
     }
 }
