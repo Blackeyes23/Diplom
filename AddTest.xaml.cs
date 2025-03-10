@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Diplom.Model; // Убедись, что у тебя есть модель для работы с БД
 
 namespace Diplom
 {
     public partial class AddTest : Window
     {
-        private List<string> answers = new List<string>(); // Список ответов
+        // Список объектов, представляющих каждый ответ с флагом правильности
+        private List<AnswerOption> answers = new List<AnswerOption>();
 
         public AddTest()
         {
             InitializeComponent();
+        }
+
+        // Класс для представления одного варианта ответа
+        public class AnswerOption
+        {
+            public string AnswerText { get; set; }
+            public bool IsCorrect { get; set; }
         }
 
         // Добавление варианта ответа
@@ -20,9 +29,35 @@ namespace Diplom
         {
             if (!string.IsNullOrWhiteSpace(NewAnswerBox.Text))
             {
-                answers.Add(NewAnswerBox.Text);
-                AnswersListBox.Items.Add(NewAnswerBox.Text);
+                // Добавляем новый вариант с флажком IsCorrect = false
+                answers.Add(new AnswerOption
+                {
+                    AnswerText = NewAnswerBox.Text,
+                    IsCorrect = false
+                });
+
+                // Обновляем ListBox с новыми ответами
+                AnswersListBox.ItemsSource = null;
+                AnswersListBox.ItemsSource = answers;
                 NewAnswerBox.Clear();
+            }
+        }
+
+        // Обработчик клика по RadioButton, чтобы пометить выбранный ответ как правильный
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Сбрасываем флаг правильного ответа для всех вариантов
+            foreach (var answer in answers)
+            {
+                answer.IsCorrect = false;
+            }
+
+            // Устанавливаем флаг IsCorrect в true для выбранного ответа
+            var selectedAnswer = (sender as RadioButton).Content.ToString();
+            var answerOption = answers.FirstOrDefault(a => a.AnswerText == selectedAnswer);
+            if (answerOption != null)
+            {
+                answerOption.IsCorrect = true;
             }
         }
 
@@ -46,15 +81,16 @@ namespace Diplom
                 context.Tests.Add(test);
                 context.SaveChanges(); // ✅ Сначала сохраняем тест, чтобы получить его ID
 
-                foreach (var answerText in answers)
+                // Добавляем ответы в БД
+                foreach (var answer in answers)
                 {
-                    var answer = new Answers
+                    var answerEntity = new Answers
                     {
-                        Text = answerText,
-                        IsCorrect = (answerText == answers[0]), // ✅ Делаем первый ответ правильным
+                        Text = answer.AnswerText,
+                        IsCorrect = answer.IsCorrect, // Применяем флажок правильного ответа
                         TestId = test.Id
                     };
-                    context.Answers.Add(answer);
+                    context.Answers.Add(answerEntity);
                 }
 
                 context.SaveChanges();
@@ -64,10 +100,11 @@ namespace Diplom
             this.Close();
         }
 
-
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
     }
+
+
 }

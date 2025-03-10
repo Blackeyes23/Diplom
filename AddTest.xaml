@@ -23,7 +23,21 @@
 
         <!-- Варианты ответов -->
         <TextBlock Text="Варианты ответов:" Grid.Row="2" FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
-        <ListBox x:Name="AnswersListBox" Grid.Row="3" MinHeight="100" Height="Auto" VerticalAlignment="Stretch"/>
+        <ListBox x:Name="AnswersListBox" Grid.Row="3" MinHeight="100" Height="Auto" VerticalAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Используем RadioButton для каждого ответа -->
+                        <RadioButton Content="{Binding AnswerText}"
+                             IsChecked="{Binding IsCorrect, Mode=TwoWay}" 
+                             GroupName="AnswersGroup" 
+                             HorizontalAlignment="Left" 
+                             Margin="10,5,10,5" 
+                             Click="RadioButton_Click"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <!-- Поле для нового ответа + кнопка "Добавить" -->
         <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
