@@ -19,6 +19,7 @@ namespace Diplom.Model
         {
         }
 
+        public virtual DbSet<Answers> Answers { get; set; }
         public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<Gruppa> Gruppa { get; set; }
         public virtual DbSet<Role> Role { get; set; }
@@ -38,6 +39,18 @@ namespace Diplom.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Answers>(entity =>
+            {
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.Test)
+                    .WithMany(p => p.Answers)
+                    .HasForeignKey(d => d.TestId)
+                    .HasConstraintName("FK__Answers__TestId__6FE99F9F");
+            });
+
             modelBuilder.Entity<Documents>(entity =>
             {
                 entity.Property(e => e.FilePath)
@@ -95,10 +108,6 @@ namespace Diplom.Model
 
             modelBuilder.Entity<Tests>(entity =>
             {
-                entity.Property(e => e.CorrectAnswer)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
                 entity.Property(e => e.Question).IsRequired();
 
                 entity.HasOne(d => d.Subject)

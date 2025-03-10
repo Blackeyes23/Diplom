@@ -38,10 +38,13 @@
                 <TextBlock Text="Роль:" FontSize="16" FontWeight="Bold" Grid.Row="3"/>
                 <TextBlock x:Name="RoleText" FontSize="16" Grid.Row="3" Margin="100,0,0,0"/>
             </Grid>
+            
             <Button Grid.Column="1" Content="Практика" HorizontalAlignment="Left" Margin="200,193,0,0" VerticalAlignment="Top" Click="Button_Click_1" Height="35" Width="77"/>
             <Button Grid.Column="1" Content="Теория" HorizontalAlignment="Left" Margin="300,193,0,0" VerticalAlignment="Top" Click="Button_Click_2" Height="35" Width="77"/>
-            <Button Grid.Column="1" Content="Выйти" HorizontalAlignment="Left" Margin="516,193,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Grid.Column="1" Content="Выйти" HorizontalAlignment="Left" Margin="114,214,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+            <ListBox x:Name="ResultsList" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="412,26,20,25"/>
 
         </Grid>
+        
     </Border>
 </Window>

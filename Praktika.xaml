@@ -8,7 +8,12 @@
         Height="450" Width="800">
     <Border BorderBrush="Blue" BorderThickness="15" Padding="10">
         <Grid>
-
+            <StackPanel Margin="20">
+                <TextBlock x:Name="QuestionText" FontSize="18" TextWrapping="Wrap" />
+                <ListBox x:Name="AnswersList" SelectionMode="Single" Margin="0,10"/>
+                <Button Content="Ответить" Click="SubmitAnswer_Click" Margin="0,10"/>
+                <TextBlock x:Name="ResultText" FontSize="16" Foreground="Green"/>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

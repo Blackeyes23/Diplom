@@ -203,6 +203,7 @@
     <Compile Include="AdminAddUserWindow.xaml.cs">
       <DependentUpon>AdminAddUserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Answers.cs" />
     <Compile Include="Model\Documents.cs" />
     <Compile Include="Model\Gruppa.cs" />
     <Compile Include="Model\Role.cs" />

@@ -27,12 +27,33 @@ namespace Diplom
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            // Проверяем, открыто ли уже окно Teor
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is Teor)
+                {
+                    window.Activate(); // Переключаемся на уже открытое окно
+                    return; // Прекращаем выполнение метода
+                }
+            }
+
+            // Если окна нет, создаем и открываем его
             Teor teor = new Teor();
             teor.Show();
         }
 
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is AddTest)
+                {
+                    window.Activate(); // Переключаемся на уже открытое окно
+                    return; // Прекращаем выполнение метода
+                }
+            }
+
             AddTest addTest = new AddTest(); 
             addTest.Show();
 

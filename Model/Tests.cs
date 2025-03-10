@@ -11,6 +11,7 @@ namespace Diplom.Model
     {
         public Tests()
         {
+            Answers = new HashSet<Answers>();
             TestResults = new HashSet<TestResults>();
         }
 
@@ -20,6 +21,7 @@ namespace Diplom.Model
         public string CorrectAnswer { get; set; }
 
         public virtual Subjects Subject { get; set; }
+        public virtual ICollection<Answers> Answers { get; set; }
         public virtual ICollection<TestResults> TestResults { get; set; }
     }
 }

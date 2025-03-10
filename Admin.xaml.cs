@@ -21,6 +21,14 @@ namespace Diplom
 
         private void OpenAddUserWindow(object sender, RoutedEventArgs e)
         {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is AdminAddUserWindow)
+                {
+                    window.Activate(); // Переключаемся на уже открытое окно
+                    return; // Прекращаем выполнение метода
+                }
+            }
             AdminAddUserWindow addUserWindow = new AdminAddUserWindow();
             addUserWindow.ShowDialog();
         }

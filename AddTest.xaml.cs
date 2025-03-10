@@ -40,17 +40,30 @@ namespace Diplom
                 var test = new Tests
                 {
                     Question = TestNameBox.Text,
-                    CorrectAnswer = answers[0], // Временно первый ответ правильный (можно добавить выпадающий список)
-                    SubjectId = 1 // Пока временно. Нужно заменить на выбранный предмет
+                    SubjectId = 1 // Пока временно
                 };
 
                 context.Tests.Add(test);
+                context.SaveChanges(); // ✅ Сначала сохраняем тест, чтобы получить его ID
+
+                foreach (var answerText in answers)
+                {
+                    var answer = new Answers
+                    {
+                        Text = answerText,
+                        IsCorrect = (answerText == answers[0]), // ✅ Делаем первый ответ правильным
+                        TestId = test.Id
+                    };
+                    context.Answers.Add(answer);
+                }
+
                 context.SaveChanges();
             }
 
             MessageBox.Show("Тест успешно добавлен!");
             this.Close();
         }
+
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
