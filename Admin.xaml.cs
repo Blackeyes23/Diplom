@@ -9,6 +9,7 @@ namespace Diplom
         {
             InitializeComponent();
             DisplayUserInfo(user);
+            this.WindowState = WindowState.Maximized;
         }
 
         private void DisplayUserInfo(Users user)
@@ -19,7 +20,16 @@ namespace Diplom
             RoleText.Text = user.Role != null ? user.Role.Name : "Не указано"; // Исправлено
         }
 
-        private void OpenAddUserWindow(object sender, RoutedEventArgs e)
+        
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             foreach (Window window in Application.Current.Windows)
             {
@@ -31,13 +41,6 @@ namespace Diplom
             }
             AdminAddUserWindow addUserWindow = new AdminAddUserWindow();
             addUserWindow.ShowDialog();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
         }
     }
 }

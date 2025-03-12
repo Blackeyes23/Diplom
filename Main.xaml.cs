@@ -16,6 +16,8 @@ namespace Diplom
             _currentUser = user;
             DisplayUserInfo(user);
             LoadUserResults(user); // Добавьте этот вызов
+            this.WindowState = WindowState.Maximized;
+
         }
 
 

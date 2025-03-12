@@ -32,10 +32,10 @@
         <TextBlock Text="Логин:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox x:Name="LoginBox" Grid.Row="2" Grid.Column="1" MaxLength="11" MinWidth="200" Width="auto"/>
 
-        <TextBlock Text="Пароль:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBlock Text="Пароль:" Grid.Row="3" Grid.Column="0"  VerticalAlignment="Center"/>
         <Grid Grid.Row="3" Grid.Column="1">
-            <TextBox x:Name="PasswordTextBox" MinWidth="170" Width="auto" Visibility="Collapsed"/>
-            <PasswordBox x:Name="PasswordBox" MinWidth="170" Width="auto"/>
+            <TextBox x:Name="PasswordTextBox" MaxLength="11" MinWidth="170" Width="auto" Visibility="Collapsed"/>
+            <PasswordBox x:Name="PasswordBox" MaxLength="11" MinWidth="170" Width="auto"/>
             <Button Content="👁" Width="30" Height="25" HorizontalAlignment="Right" Click="TogglePasswordVisibility"/>
         </Grid>
 

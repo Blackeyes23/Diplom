@@ -27,21 +27,46 @@ namespace Diplom
         // Добавление варианта ответа
         private void AddAnswer_Click(object sender, RoutedEventArgs e)
         {
+            if (answers.Count >= 5)
+            {
+                MessageBox.Show("Нельзя добавить больше 5 ответов!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (!string.IsNullOrWhiteSpace(NewAnswerBox.Text))
             {
-                // Добавляем новый вариант с флажком IsCorrect = false
                 answers.Add(new AnswerOption
                 {
                     AnswerText = NewAnswerBox.Text,
                     IsCorrect = false
                 });
 
-                // Обновляем ListBox с новыми ответами
                 AnswersListBox.ItemsSource = null;
                 AnswersListBox.ItemsSource = answers;
                 NewAnswerBox.Clear();
             }
         }
+
+        private void CorrectAnswer_Checked(object sender, RoutedEventArgs e)
+        {
+            var selectedAnswer = (sender as RadioButton)?.DataContext as AnswerOption;
+            if (selectedAnswer == null) return;
+
+            // Сбрасываем флаг правильности у всех
+            foreach (var answer in answers)
+            {
+                answer.IsCorrect = false;
+            }
+
+            // Устанавливаем правильный ответ
+            selectedAnswer.IsCorrect = true;
+
+            // Обновляем ListBox
+            AnswersListBox.ItemsSource = null;
+            AnswersListBox.ItemsSource = answers;
+        }
+
+
 
         // Обработчик клика по RadioButton, чтобы пометить выбранный ответ как правильный
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -62,11 +87,20 @@ namespace Diplom
         }
 
         // Сохранение теста в БД
+        // Сохранение теста в БД
+        // Сохранение теста в БД
         private void SaveTest_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TestNameBox.Text) || answers.Count < 2)
             {
-                MessageBox.Show("Введите название теста и добавьте минимум два варианта ответа.");
+                MessageBox.Show("Введите название теста и добавьте минимум два варианта ответа.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Проверка на наличие правильного ответа
+            if (!answers.Any(a => a.IsCorrect))
+            {
+                MessageBox.Show("Выберите хотя бы один правильный ответ перед сохранением!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -75,11 +109,11 @@ namespace Diplom
                 var test = new Tests
                 {
                     Question = TestNameBox.Text,
-                    SubjectId = 1 // Пока временно
+                    SubjectId = 1 // Временный идентификатор предмета
                 };
 
                 context.Tests.Add(test);
-                context.SaveChanges(); // ✅ Сначала сохраняем тест, чтобы получить его ID
+                context.SaveChanges(); // ✅ Сохраняем тест, чтобы получить его ID
 
                 // Добавляем ответы в БД
                 foreach (var answer in answers)
@@ -99,6 +133,8 @@ namespace Diplom
             MessageBox.Show("Тест успешно добавлен!");
             this.Close();
         }
+
+
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {

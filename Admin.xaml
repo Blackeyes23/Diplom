@@ -6,51 +6,59 @@
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
         Title="Admin"
-        Height="450" Width="800"
-        MinHeight="400" MinWidth="600"
+         Height="600" Width="1000"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         Background="SkyBlue">
 
-    <Border BorderBrush="Blue" BorderThickness="10" Padding="10">
+    <Border BorderBrush="Blue" BorderThickness="15" Padding="10" Background="SkyBlue">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <!-- Левая колонка для фото -->
                 <ColumnDefinition Width="*"/>
+                <!-- Правая колонка для текста -->
             </Grid.ColumnDefinitions>
 
-            <!-- Фото пользователя -->
-            <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Width="150" Height="150"
-                   Stretch="UniformToFill" Margin="10" Grid.Column="0"/>
+            <!-- Левая часть (Фото) -->
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+                <Image Source="Resources/images.png"  Width="200" Margin="10 10 10 10"/>
 
-            <!-- Информация -->
-            <Grid Grid.Column="1" Margin="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Имя:" FontSize="16" FontWeight="Bold"/>
-                <TextBlock x:Name="NameText" FontSize="16" Margin="100,0,0,0"/>
-
-                <TextBlock Text="Фамилия:" FontSize="16" FontWeight="Bold" Grid.Row="1"/>
-                <TextBlock x:Name="SurnameText" FontSize="16" Grid.Row="1" Margin="100,0,0,0"/>
-
-                <TextBlock Text="Группа:" FontSize="16" FontWeight="Bold" Grid.Row="2"/>
-                <TextBlock x:Name="GroupText" FontSize="16" Grid.Row="2" Margin="100,0,0,0"/>
-
-                <TextBlock Text="Роль:" FontSize="16" FontWeight="Bold" Grid.Row="3"/>
-                <TextBlock x:Name="RoleText" FontSize="16" Grid.Row="3" Margin="100,0,0,0"/>
-            </Grid>
-
-            <!-- Кнопки -->
-            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                <Button Content="Добавить пользователя" Click="OpenAddUserWindow" Height="40" Width="180" Margin="10"/>
-                <Button Content="Выйти" Click="Button_Click" Height="40" Width="120" Margin="10"/>
+                <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Margin="10 10 10 201"  Width="200" Height="200" Stretch="UniformToFill"/>
             </StackPanel>
+
+            <!-- Правая часть (Информация + Кнопки) -->
+            <StackPanel Grid.Column="1" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- Текстовые данные -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Имя:" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock x:Name="NameText" FontSize="20" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Фамилия:" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock x:Name="SurnameText" FontSize="20" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Группа:" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock x:Name="GroupText" FontSize="20" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Роль:" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock x:Name="RoleText" FontSize="20" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    <Button Content="Добавить пользователя" Width="170" Height="50" Click="Button_Click_1"/>
+                    <Button Content="Выйти" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click"/>
+                </StackPanel>
+
+            </StackPanel>
+
         </Grid>
     </Border>
 </Window>

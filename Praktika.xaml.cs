@@ -26,6 +26,7 @@ namespace Diplom
             _currentUser = user;
             _userId = user.Id; 
             LoadTests();
+
         }
 
 

@@ -22,7 +22,8 @@
 
             <!-- Левая часть (Фото) -->
             <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
-                <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Width="200" Height="200" Stretch="UniformToFill"/>
+                <Image Source="Resources/images.png"  Width="200" Margin="10 10 10 10"/>
+                <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Margin="10 10 10 201" Width="200" Height="200" Stretch="UniformToFill"/>
             </StackPanel>
 
             <!-- Правая часть (Информация + Кнопки + Список) -->

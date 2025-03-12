@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:Diplom"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Margin" Value="0 5 0 5"></Setter>
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="BorderBrush" Value="#0A67A3"></Setter>
+            <Setter Property="Foreground" Value="#0A67A3"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+
     </Application.Resources>
 </Application>

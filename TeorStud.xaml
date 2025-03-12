@@ -10,7 +10,7 @@
     <Border BorderBrush="Blue" BorderThickness="15" Padding="10">
         <Grid>
             <StackPanel x:Name="TheoryListPanel" Orientation="Vertical" Margin="10"/>
-            <Button Content="Выйти" HorizontalAlignment="Left" Margin="520,77,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Content="Выйти" HorizontalAlignment="Left" Margin="520,114,0,0" VerticalAlignment="Top" Click="Button_Click"/>
 
         </Grid>
     </Border>

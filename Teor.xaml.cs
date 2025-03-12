@@ -15,6 +15,7 @@ namespace Diplom
         {
             InitializeComponent();
             Directory.CreateDirectory(uploadPath); // Создаем папку, если нет
+            this.WindowState = WindowState.Maximized;
         }
 
         private void LoadDocxButton_Click(object sender, RoutedEventArgs e)
