@@ -1,0 +1,24 @@
+﻿<Window x:Class="Diplom.DopStud"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom"
+        mc:Ignorable="d"
+        Title="Просмотр документа" Height="600" Width="800">
+
+    <Border BorderBrush="Blue" BorderThickness="10" Padding="10" Background="SkyBlue" Margin="0,0,0,-333">
+        <Grid>
+            <StackPanel Margin="10">
+                <Button Content="Назад" Click="Button_Click" Width="150" Height="30" Margin="0,0,0,10"/>
+
+                <!-- Панель для отображения списка документов -->
+                <StackPanel x:Name="DocumentListPanel" Orientation="Vertical" Margin="10">
+                    <!-- Кнопки для каждого документа будут добавляться сюда -->
+                </StackPanel>
+
+                <DocumentViewer x:Name="documentViewer" Width="Auto" Height="809" Background="White"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

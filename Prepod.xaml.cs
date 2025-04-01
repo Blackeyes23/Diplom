@@ -85,5 +85,21 @@ namespace Diplom
             }
         }
 
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            // Открытие главного окна
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is DopInfo)
+                {
+                    window.Activate(); // Переключаемся на уже открытое окно
+                    return; // Прекращаем выполнение метода
+                }
+            }
+
+
+            DopInfo dopInfo = new DopInfo();
+            dopInfo.Show();
+        }
     }
 }

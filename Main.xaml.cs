@@ -118,7 +118,21 @@ namespace Diplom
             }
         }
 
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            // Проверяем, открыто ли уже окно Teor
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is DopStud)
+                {
+                    window.Activate(); // Переключаемся на уже открытое окно
+                    return; // Прекращаем выполнение метода
+                }
+            }
 
 
+            DopStud dopStud = new DopStud();
+            dopStud.Show();
+        }
     }
 }
