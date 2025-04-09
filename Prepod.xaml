@@ -52,10 +52,13 @@
                 </StackPanel>
 
                 <!-- Кнопки -->
+                <!-- Кнопки -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                     <Button Content="Добавить практику" Width="170" Height="50" Click="Button_Click_1"/>
                     <Button Content="Добавить теорию" Width="170" Height="50" Margin="20,0,0,0" Click="Button_Click_2"/>
                     <Button Content="Доп.Информация" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click_3"/>
+                    <Button Content="Результаты" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click_Results"/>
+
                     <Button Content="Выйти" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click"/>
                 </StackPanel>
 

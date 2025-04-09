@@ -2,92 +2,135 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Diplom.Model; // Убедись, что у тебя есть модель для работы с БД
-using DocumentFormat.OpenXml.Spreadsheet;
+using Diplom.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Diplom
 {
-    /// <summary>
-    /// Логика взаимодействия для Praktika.xaml
-    /// </summary>
     public partial class Praktika : Window
     {
         private readonly VPKSContext _context;
-        private List<Tests> _tests;
-        private int _currentTestIndex;
+        private Tests _currentTest;
+        private List<Tests> _groupQuestions;
+        private int _currentQuestionIndex;
         private int _score;
-        private int _userId; // ID текущего пользователя
+        private int _userId;
         private Model.Users _currentUser;
 
         public Praktika(Model.Users user)
         {
             InitializeComponent();
             _currentUser = user;
-            _userId = user.Id; 
-            LoadTests();
-
+            _userId = user.Id;
+            LoadTestList();
         }
 
-
-
-        private void LoadTests()
+        private void LoadTestList()
         {
             using (var context = new VPKSContext())
             {
-                _tests = context.Tests.Include(t => t.Answers).ToList();
+                var groupsWithQuestions = context.TestGroups
+                    .Where(g => context.Tests.Any(t => t.TestGroupId == g.Id))
+                    .ToList();
 
-                if (_tests.Count == 0)
+                if (groupsWithQuestions.Count == 0)
                 {
-                    MessageBox.Show("В базе данных нет тестов!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Нет доступных тестов!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                _currentTestIndex = 0;
+                TestSelectionComboBox.ItemsSource = groupsWithQuestions;
+                TestSelectionComboBox.DisplayMemberPath = "Name";
+                TestSelectionComboBox.SelectedValuePath = "Id";
+            }
+        }
+    
+
+
+        private void TestSelectionComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (TestSelectionComboBox.SelectedItem is TestGroups selectedGroup)
+            {
+                using (var context = new VPKSContext())
+                {
+                    _groupQuestions = context.Tests
+                        .Where(t => t.TestGroupId == selectedGroup.Id)
+                        .Include(t => t.Answers)
+                        .ToList();
+                }
+
+                _currentQuestionIndex = 0;
                 _score = 0;
-                ShowTest();
+
+                if (_groupQuestions.Count == 0)
+                {
+                    MessageBox.Show("В выбранном тесте нет вопросов!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                ShowCurrentQuestion();
             }
         }
 
-
-
-
-
-        private void ShowTest()
+        private void ShowCurrentQuestion()
         {
-            if (_currentTestIndex >= _tests.Count)
+            if (_currentQuestionIndex >= _groupQuestions.Count)
             {
-                ShowFinalScore();
+                FinishTest();
                 return;
             }
 
-            var test = _tests[_currentTestIndex];
+            _currentTest = _groupQuestions[_currentQuestionIndex];
 
-            QuestionText.Text = test.Question;
+            QuestionText.Text = _currentTest.Question;
             AnswersList.Items.Clear();
 
-            var answers = test.Answers.OrderBy(a => Guid.NewGuid()).ToList(); // ✅ Перемешиваем
-
-            foreach (var answer in answers)
+            foreach (var answer in _currentTest.Answers.OrderBy(a => Guid.NewGuid()))
             {
                 AnswersList.Items.Add(answer.Text);
             }
+
+            ResultText.Text = "";
         }
+
+
+        private void FinishTest()
+        {
+            MessageBox.Show($"Тест завершён! Ваш результат: {_score} из {_groupQuestions.Count}", "Результат", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // Очистка
+            QuestionText.Text = "";
+            AnswersList.Items.Clear();
+            ResultText.Text = "";
+            _groupQuestions = null;
+
+            if (MessageBox.Show("Хотите пройти другой тест?", "Выбор", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                TestSelectionComboBox.SelectedIndex = -1;
+            }
+            else
+            {
+                this.Close(); // или вернуться в главное окно
+            }
+        }
+
+
 
 
 
 
         private void SubmitAnswer_Click(object sender, RoutedEventArgs e)
         {
-            if (AnswersList.SelectedItem == null)
+            if (_currentTest == null || AnswersList.SelectedItem == null)
             {
                 MessageBox.Show("Выберите ответ!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var test = _tests[_currentTestIndex];
             string selectedAnswer = AnswersList.SelectedItem.ToString();
-            bool isCorrect = test.Answers.Any(a => a.Text == selectedAnswer && a.IsCorrect);
+            var correctAnswer = _currentTest.Answers.FirstOrDefault(a => a.IsCorrect);
+
+            bool isCorrect = selectedAnswer == correctAnswer?.Text;
 
             if (isCorrect) _score++;
 
@@ -96,7 +139,7 @@ namespace Diplom
                 var result = new TestResults
                 {
                     UserId = _userId,
-                    TestId = test.Id,
+                    TestId = _currentTest.Id,
                     GivenAnswer = selectedAnswer,
                     IsCorrect = isCorrect,
                     Score = isCorrect ? 1 : 0
@@ -106,24 +149,12 @@ namespace Diplom
                 context.SaveChanges();
             }
 
-            ResultText.Text = isCorrect ? "Правильно!" : $"Неправильно! Верный ответ: {test.Answers.First(a => a.IsCorrect).Text}";
+            ResultText.Text = isCorrect ? "Правильно!" : $"Неправильно! Верный ответ: {correctAnswer?.Text}";
 
-            _currentTestIndex++;
-            ShowTest();
+            _currentQuestionIndex++;
+            ShowCurrentQuestion();
         }
-
-
-        private void ShowFinalScore()
-        {
-            double percentage = (double)_score / _tests.Count * 100;
-            int grade = percentage >= 90 ? 5 : percentage >= 75 ? 4 : percentage >= 50 ? 3 : 2;
-
-            MessageBox.Show($"Тест завершён!\nПравильных ответов: {_score}/{_tests.Count}\nВаша оценка: {grade}",
-                "Результат", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            Close();
-        }
-
 
     }
+
 }

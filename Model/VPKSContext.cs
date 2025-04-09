@@ -24,6 +24,8 @@ namespace Diplom.Model
         public virtual DbSet<Gruppa> Gruppa { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Subjects> Subjects { get; set; }
+        public virtual DbSet<TestCategory> TestCategory { get; set; }
+        public virtual DbSet<TestGroups> TestGroups { get; set; }
         public virtual DbSet<TestResults> TestResults { get; set; }
         public virtual DbSet<Tests> Tests { get; set; }
         public virtual DbSet<Users> Users { get; set; }
@@ -48,6 +50,7 @@ namespace Diplom.Model
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.TestId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Answers__TestId__6FE99F9F");
             });
 
@@ -68,6 +71,7 @@ namespace Diplom.Model
                 entity.HasOne(d => d.Uploader)
                     .WithMany(p => p.Documents)
                     .HasForeignKey(d => d.UploaderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Documents__Uploa__4AB81AF0");
             });
 
@@ -89,6 +93,29 @@ namespace Diplom.Model
                     .HasMaxLength(255);
             });
 
+            modelBuilder.Entity<TestCategory>(entity =>
+            {
+                entity.HasIndex(e => e.Name)
+                    .HasName("UQ__TestCate__737584F6FC2A9C1D")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<TestGroups>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.TestGroups)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_TestGroups_TestCategory");
+            });
+
             modelBuilder.Entity<TestResults>(entity =>
             {
                 entity.Property(e => e.GivenAnswer)
@@ -98,22 +125,41 @@ namespace Diplom.Model
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.TestResults)
                     .HasForeignKey(d => d.TestId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TestResul__TestI__6383C8BA");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TestResults)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__TestResul__UserI__628FA481");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TestResults_Users");
             });
 
             modelBuilder.Entity<Tests>(entity =>
             {
-                entity.Property(e => e.Question).IsRequired();
+                entity.Property(e => e.CorrectAnswer)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Question)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Tests)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_Tests_TestCategory");
 
                 entity.HasOne(d => d.Subject)
                     .WithMany(p => p.Tests)
                     .HasForeignKey(d => d.SubjectId)
                     .HasConstraintName("FK__Tests__SubjectId__5FB337D6");
+
+                entity.HasOne(d => d.TestGroup)
+                    .WithMany(p => p.Tests)
+                    .HasForeignKey(d => d.TestGroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Tests_TestGroup");
             });
 
             modelBuilder.Entity<Users>(entity =>

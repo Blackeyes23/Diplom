@@ -85,6 +85,22 @@ namespace Diplom
             }
         }
 
+        private void Button_Click_Results(object sender, RoutedEventArgs e)
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is StudentResultsWindow)
+                {
+                    window.Activate();
+                    return;
+                }
+            }
+
+            StudentResultsWindow resultsWindow = new StudentResultsWindow();
+            resultsWindow.Show();
+        }
+
+
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             // Открытие главного окна

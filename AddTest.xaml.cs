@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Diplom.Model; // Убедись, что у тебя есть модель для работы с БД
+using Diplom.Model;
 
 namespace Diplom
 {
     public partial class AddTest : Window
     {
-        // Список объектов, представляющих каждый ответ с флагом правильности
         private List<AnswerOption> answers = new List<AnswerOption>();
 
         public AddTest()
@@ -17,14 +16,13 @@ namespace Diplom
             InitializeComponent();
         }
 
-        // Класс для представления одного варианта ответа
+        // Представление одного варианта ответа
         public class AnswerOption
         {
             public string AnswerText { get; set; }
             public bool IsCorrect { get; set; }
         }
 
-        // Добавление варианта ответа
         private void AddAnswer_Click(object sender, RoutedEventArgs e)
         {
             if (answers.Count >= 5)
@@ -41,9 +39,12 @@ namespace Diplom
                     IsCorrect = false
                 });
 
-                AnswersListBox.ItemsSource = null;
-                AnswersListBox.ItemsSource = answers;
+                RefreshAnswersList();
                 NewAnswerBox.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Введите текст ответа.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -52,87 +53,62 @@ namespace Diplom
             var selectedAnswer = (sender as RadioButton)?.DataContext as AnswerOption;
             if (selectedAnswer == null) return;
 
-            // Сбрасываем флаг правильности у всех
             foreach (var answer in answers)
-            {
                 answer.IsCorrect = false;
-            }
 
-            // Устанавливаем правильный ответ
             selectedAnswer.IsCorrect = true;
-
-            // Обновляем ListBox
-            AnswersListBox.ItemsSource = null;
-            AnswersListBox.ItemsSource = answers;
+            RefreshAnswersList();
         }
 
-
-
-        // Обработчик клика по RadioButton, чтобы пометить выбранный ответ как правильный
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
-            // Сбрасываем флаг правильного ответа для всех вариантов
             foreach (var answer in answers)
-            {
                 answer.IsCorrect = false;
-            }
 
-            // Устанавливаем флаг IsCorrect в true для выбранного ответа
-            var selectedAnswer = (sender as RadioButton).Content.ToString();
-            var answerOption = answers.FirstOrDefault(a => a.AnswerText == selectedAnswer);
-            if (answerOption != null)
+            var selectedAnswer = (sender as RadioButton)?.DataContext as AnswerOption;
+            if (selectedAnswer != null)
             {
-                answerOption.IsCorrect = true;
+                selectedAnswer.IsCorrect = true;
+                RefreshAnswersList();
             }
         }
 
-        // Сохранение теста в БД
-        // Сохранение теста в БД
-        // Сохранение теста в БД
+        private TestGroups currentGroup; // поле класса для хранения созданной группы
+
         private void SaveTest_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TestNameBox.Text) || answers.Count < 2)
+            if (string.IsNullOrWhiteSpace(TestNameBox.Text))
             {
-                MessageBox.Show("Введите название теста и добавьте минимум два варианта ответа.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Введите название теста.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Проверка на наличие правильного ответа
-            if (!answers.Any(a => a.IsCorrect))
+            try
             {
-                MessageBox.Show("Выберите хотя бы один правильный ответ перед сохранением!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            using (var context = new VPKSContext())
-            {
-                var test = new Tests
+                using (var context = new VPKSContext())
                 {
-                    Question = TestNameBox.Text,
-                    SubjectId = 1 // Временный идентификатор предмета
-                };
-
-                context.Tests.Add(test);
-                context.SaveChanges(); // ✅ Сохраняем тест, чтобы получить его ID
-
-                // Добавляем ответы в БД
-                foreach (var answer in answers)
-                {
-                    var answerEntity = new Answers
+                    var group = new TestGroups
                     {
-                        Text = answer.AnswerText,
-                        IsCorrect = answer.IsCorrect, // Применяем флажок правильного ответа
-                        TestId = test.Id
+                        Name = TestNameBox.Text,
+                        CategoryId = 1
                     };
-                    context.Answers.Add(answerEntity);
+
+
+                    context.TestGroups.Add(group);
+                    context.SaveChanges();
+
+                    currentGroup = group; // сохранить для добавления вопросов
+
+                    MessageBox.Show("Тест сохранён. Теперь добавьте вопросы.");
                 }
-
-                context.SaveChanges();
             }
-
-            MessageBox.Show("Тест успешно добавлен!");
-            this.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении теста: {ex.InnerException?.Message ?? ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+
 
 
 
@@ -140,7 +116,80 @@ namespace Diplom
         {
             this.Close();
         }
+
+        private void RefreshAnswersList()
+        {
+            AnswersListBox.ItemsSource = null;
+            AnswersListBox.ItemsSource = answers;
+        }
+
+        private void SaveQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentGroup == null)
+            {
+                MessageBox.Show("Сначала сохраните тест.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(QuestionNameBox.Text))
+            {
+                MessageBox.Show("Введите название вопроса.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (answers.Count < 2)
+            {
+                MessageBox.Show("Добавьте минимум два варианта ответа.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var correctAnswer = answers.FirstOrDefault(a => a.IsCorrect);
+            if (correctAnswer == null)
+            {
+                MessageBox.Show("Не выбран правильный ответ!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using (var context = new VPKSContext())
+                {
+                    var test = new Tests
+                    {
+                        Question = QuestionNameBox.Text,
+                        SubjectId = 1,
+                        TestGroupId = currentGroup.Id,
+                        CorrectAnswer = correctAnswer.AnswerText,
+                        CategoryId = 1
+                    };
+
+                    context.Tests.Add(test);
+                    context.SaveChanges();
+
+                    foreach (var answer in answers)
+                    {
+                        var answerEntity = new Answers
+                        {
+                            Text = answer.AnswerText,
+                            IsCorrect = answer.IsCorrect,
+                            TestId = test.Id
+                        };
+                        context.Answers.Add(answerEntity);
+                    }
+
+                    context.SaveChanges();
+                }
+
+                MessageBox.Show("Вопрос успешно добавлен!");
+                QuestionNameBox.Clear();
+                answers.Clear();
+                RefreshAnswersList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении: {ex.InnerException?.Message ?? ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
-
-
 }

@@ -16,11 +16,15 @@ namespace Diplom.Model
         }
 
         public int Id { get; set; }
-        public int SubjectId { get; set; }
+        public int TestGroupId { get; set; }
         public string Question { get; set; }
         public string CorrectAnswer { get; set; }
+        public int? CategoryId { get; set; }
+        public int? SubjectId { get; set; }
 
+        public virtual TestCategory Category { get; set; }
         public virtual Subjects Subject { get; set; }
+        public virtual TestGroups TestGroup { get; set; }
         public virtual ICollection<Answers> Answers { get; set; }
         public virtual ICollection<TestResults> TestResults { get; set; }
     }
