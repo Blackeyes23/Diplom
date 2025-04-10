@@ -7,11 +7,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Для кнопки -->
         </Grid.RowDefinitions>
+
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Выберите группу:" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <ComboBox x:Name="GroupComboBox" Width="200" SelectionChanged="GroupComboBox_SelectionChanged"/>
+            <Button Content="Экспорт в Excel" Grid.Row="2" Height="40" Margin="20,10,0,0" Click="ExportToExcel_Click"/>
         </StackPanel>
 
         <ListView x:Name="ResultsListView" Grid.Row="1">
