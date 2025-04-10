@@ -16,9 +16,9 @@
             private void Button_Click(object sender, RoutedEventArgs e)
             {
                 string login = Login.Text;
-                string password = Password.Text; // Используем PasswordBox для пароля
+            string password = Password.Password;
 
-                using (var context = new VPKSContext()) // Создаем экземпляр контекста
+            using (var context = new VPKSContext()) // Создаем экземпляр контекста
                 {
                     var user = context.Users
                         .Include(u => u.Role) // Загружаем связанную роль
