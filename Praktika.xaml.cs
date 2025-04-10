@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 using Diplom.Model;
+using System.Windows.Media;
 using Microsoft.EntityFrameworkCore;
 
 namespace Diplom
 {
     public partial class Praktika : Window
     {
+        private double _totalSeconds;
         private readonly VPKSContext _context;
         private Tests _currentTest;
         private List<Tests> _groupQuestions;
@@ -16,6 +19,10 @@ namespace Diplom
         private int _score;
         private int _userId;
         private Model.Users _currentUser;
+        private DispatcherTimer _timer;
+        private TimeSpan _timeLeft;
+        private bool _warningShown = false;
+
 
         public Praktika(Model.Users user)
         {
@@ -69,8 +76,60 @@ namespace Diplom
                 }
 
                 ShowCurrentQuestion();
+                StartTimer(_groupQuestions.Count); // Перенести сюда
+            }
+
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            _timeLeft = _timeLeft.Subtract(TimeSpan.FromSeconds(1));
+            TimerText.Text = $"Время: {_timeLeft.Minutes:D2}:{_timeLeft.Seconds:D2}";
+
+            double secondsLeft = _timeLeft.TotalSeconds;
+            TimeProgressBar.Value = secondsLeft;
+
+            // Анимация счётчика — мигание при малом времени
+            if (secondsLeft <= _totalSeconds * 0.25)
+            {
+                TimerText.Foreground = TimerText.Foreground == Brushes.Red ? Brushes.Black : Brushes.Red;
+            }
+
+            // Предупреждение за 75% времени
+            double percentPassed = 1 - (secondsLeft / _totalSeconds);
+            if (!_warningShown && percentPassed >= 0.75)
+            {
+                _warningShown = true;
+                MessageBox.Show("Осталось совсем немного времени!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            if (_timeLeft <= TimeSpan.Zero)
+            {
+                _timer.Stop();
+                MessageBox.Show("Время вышло! Тест завершён автоматически.", "Время истекло", MessageBoxButton.OK, MessageBoxImage.Information);
+                FinishTest();
             }
         }
+
+
+
+        private void StartTimer(int questionCount)
+        {
+            _timeLeft = TimeSpan.FromMinutes(questionCount); // 1 минута на вопрос
+            _totalSeconds = _timeLeft.TotalSeconds;
+            _warningShown = false;
+
+            TimeProgressBar.Maximum = _totalSeconds;
+            TimeProgressBar.Value = _totalSeconds;
+
+            _timer?.Stop();
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
+        }
+
+
 
         private void ShowCurrentQuestion()
         {
@@ -96,6 +155,8 @@ namespace Diplom
 
         private void FinishTest()
         {
+            _timer?.Stop();
+
             MessageBox.Show($"Тест завершён! Ваш результат: {_score} из {_groupQuestions.Count}", "Результат", MessageBoxButton.OK, MessageBoxImage.Information);
 
             // Очистка
@@ -104,15 +165,20 @@ namespace Diplom
             ResultText.Text = "";
             _groupQuestions = null;
 
+            TimerText.Text = "";
+            TimerText.Foreground = Brushes.Black;
+            TimeProgressBar.Value = 0;
+
             if (MessageBox.Show("Хотите пройти другой тест?", "Выбор", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 TestSelectionComboBox.SelectedIndex = -1;
             }
             else
             {
-                this.Close(); // или вернуться в главное окно
+                this.Close();
             }
         }
+
 
 
 
