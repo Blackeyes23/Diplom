@@ -15,22 +15,17 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <!-- Левая колонка для фото -->
                 <ColumnDefinition Width="*"/>
-                <!-- Правая колонка для текста -->
             </Grid.ColumnDefinitions>
 
-            <!-- Левая часть (Фото) -->
             <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
                 <Image Source="Resources/images.png"  Width="200" Margin="10 10 10 10"/>
 
                 <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Margin="10 10 10 201"  Width="200" Height="200" Stretch="UniformToFill"/>
             </StackPanel>
 
-            <!-- Правая часть (Информация + Кнопки) -->
             <StackPanel Grid.Column="1" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <!-- Текстовые данные -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Имя:" FontSize="20" FontWeight="Bold"/>
                     <TextBlock x:Name="NameText" FontSize="20" Margin="10,0,0,0"/>
@@ -51,7 +46,6 @@
                     <TextBlock x:Name="RoleText" FontSize="20" Margin="10,0,0,0"/>
                 </StackPanel>
 
-                <!-- Кнопки -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                     <Button Content="Добавить пользователя" Width="170" Height="50" Click="Button_Click_1"/>
                     <Button Content="Выйти" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click"/>

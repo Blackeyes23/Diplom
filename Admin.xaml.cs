@@ -17,7 +17,7 @@ namespace Diplom
             NameText.Text = user.Name;
             SurnameText.Text = user.Surname;
             GroupText.Text = user.Gruppa != null ? user.Gruppa.Number.ToString() : "Не указано";
-            RoleText.Text = user.Role != null ? user.Role.Name : "Не указано"; // Исправлено
+            RoleText.Text = user.Role != null ? user.Role.Name : "Не указано"; 
         }
 
         
@@ -35,8 +35,8 @@ namespace Diplom
             {
                 if (window is AdminAddUserWindow)
                 {
-                    window.Activate(); // Переключаемся на уже открытое окно
-                    return; // Прекращаем выполнение метода
+                    window.Activate(); 
+                    return; 
                 }
             }
             AdminAddUserWindow addUserWindow = new AdminAddUserWindow();

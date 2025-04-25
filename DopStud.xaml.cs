@@ -76,9 +76,7 @@ namespace Diplom
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Открытие главного окна
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-
+           
             // Закрытие текущего окна
             this.Close();
         }

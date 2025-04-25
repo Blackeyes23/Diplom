@@ -16,7 +16,6 @@ namespace Diplom
             InitializeComponent();
         }
 
-        // Представление одного варианта ответа
         public class AnswerOption
         {
             public string AnswerText { get; set; }
@@ -73,7 +72,7 @@ namespace Diplom
             }
         }
 
-        private TestGroups currentGroup; // поле класса для хранения созданной группы
+        private TestGroups currentGroup; 
 
         private void SaveTest_Click(object sender, RoutedEventArgs e)
         {
@@ -97,7 +96,7 @@ namespace Diplom
                     context.TestGroups.Add(group);
                     context.SaveChanges();
 
-                    currentGroup = group; // сохранить для добавления вопросов
+                    currentGroup = group; 
 
                     MessageBox.Show("Тест сохранён. Теперь добавьте вопросы.");
                 }

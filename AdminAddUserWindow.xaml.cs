@@ -12,16 +12,14 @@ namespace Diplom
         public AdminAddUserWindow()
         {
             InitializeComponent();
-            LoadRolesAndGroups(); // Загружаем роли и группы при открытии окна
+            LoadRolesAndGroups(); 
         }
 
-        // Ограничение ввода только букв
         private void NameBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !Regex.IsMatch(e.Text, @"^[а-яА-Яa-zA-Z]+$");
         }
 
-        // Переключение видимости пароля
         private void TogglePasswordVisibility(object sender, RoutedEventArgs e)
         {
             if (PasswordBox.Visibility == Visibility.Visible)
@@ -40,7 +38,6 @@ namespace Diplom
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
-            // Проверка на пустые поля
             if (string.IsNullOrWhiteSpace(NameBox.Text) ||
                 string.IsNullOrWhiteSpace(SurnameBox.Text) ||
                 string.IsNullOrWhiteSpace(LoginBox.Text) ||
@@ -52,7 +49,6 @@ namespace Diplom
                 return;
             }
 
-            // Добавление нового пользователя (пример)
             using (var context = new Diplom.Model.VPKSContext())
             {
                 var newUser = new Diplom.Model.Users
@@ -61,7 +57,7 @@ namespace Diplom
                     Surname = SurnameBox.Text,
                     Login = LoginBox.Text,
                     Password = PasswordBox.Password,
-                    RoleId = (int)RoleComboBox.SelectedValue,  // Предполагается, что привязка данных настроена
+                    RoleId = (int)RoleComboBox.SelectedValue,  
                     GruppaId = (int)GroupComboBox.SelectedValue
                 };
 
@@ -76,17 +72,15 @@ namespace Diplom
         {
             using (var context = new Diplom.Model.VPKSContext())
             {
-                // Загружаем роли
                 var roles = context.Role.ToList();
                 RoleComboBox.ItemsSource = roles;
-                RoleComboBox.DisplayMemberPath = "Name"; // Отображаем имя роли
-                RoleComboBox.SelectedValuePath = "Id";  // Значение - ID роли
+                RoleComboBox.DisplayMemberPath = "Name";
+                RoleComboBox.SelectedValuePath = "Id";  
 
-                // Загружаем группы
                 var groups = context.Gruppa.ToList();
                 GroupComboBox.ItemsSource = groups;
-                GroupComboBox.DisplayMemberPath = "Number"; // Отображаем номер группы
-                GroupComboBox.SelectedValuePath = "Id";     // Значение - ID группы
+                GroupComboBox.DisplayMemberPath = "Number"; 
+                GroupComboBox.SelectedValuePath = "Id";     
             }
         }
 
