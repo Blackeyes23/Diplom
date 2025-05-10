@@ -9,9 +9,9 @@
          Height="600" Width="1000"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
-        Background="SkyBlue">
+        >
 
-    <Border BorderBrush="Blue" BorderThickness="15" Padding="10" Background="SkyBlue">
+    <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -48,7 +48,7 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                     <Button Content="Добавить пользователя" Width="170" Height="50" Click="Button_Click_1"/>
-                    <Button Content="Выйти" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click"/>
+                    <Button Content="Выйти" Width="120" Height="50" Margin="20,20,0,0" Click="Button_Click"/>
                 </StackPanel>
 
             </StackPanel>

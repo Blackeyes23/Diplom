@@ -5,7 +5,9 @@
         WindowStartupLocation="CenterScreen"
         Width="450" Height="500"
         WindowStyle="SingleBorderWindow"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize"
+        MinHeight="450"
+        MinWidth="450">
 
 
     <Window.Background>
@@ -20,7 +22,7 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" >
                 <Image Source="Resources/images.png" Width="150" Margin="0,0,0,20"/>
 
-                <TextBlock Text="Логин" FontWeight="Bold" FontSize="14" Margin="0,0,0,5"/>
+                <TextBlock Text="Логин" FontWeight="Bold" FontSize="14" Margin="10,0,0,5"/>
                 <TextBox x:Name="Login" Height="30" Padding="5" FontSize="14" Background="#F0F4FF" BorderBrush="#A1C4FD" BorderThickness="1" />
 
                 <TextBlock Text="Пароль" FontWeight="Bold" FontSize="14" Margin="10,10,0,5"/>

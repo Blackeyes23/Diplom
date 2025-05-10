@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
-        Title="TeorStud" Height="450" Width="800" Background="SkyBlue">
+        Title="TeorStud" Height="450" Width="800" >
 
-    <Border BorderBrush="Blue" BorderThickness="15" Padding="10">
+    <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid>
             <StackPanel x:Name="TheoryListPanel" Orientation="Vertical" Margin="10"/>
             <Button Content="Выйти" HorizontalAlignment="Left" Margin="520,114,0,0" VerticalAlignment="Top" Click="Button_Click"/>

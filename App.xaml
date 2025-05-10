@@ -5,13 +5,74 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
+        <!-- Общий стиль для всех окон -->
+        <Style TargetType="Window">
+            <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
+            <Setter Property="ResizeMode" Value="CanResize"/>
+            <Setter Property="MinWidth" Value="450"/>
+            <Setter Property="MinHeight" Value="450"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#A1C4FD" Offset="0.0"/>
+                        <GradientStop Color="#C2E9FB" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для основного контейнера (Border) -->
+        <Style TargetType="Border" x:Key="RoundedBorderStyle">
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="20"/>
+        </Style>
+
+        <!-- Стиль для кнопок -->
         <Style TargetType="Button">
-            <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="Margin" Value="0 5 0 5"></Setter>
-            <Setter Property="Background" Value="White"></Setter>
-            <Setter Property="BorderBrush" Value="#0A67A3"></Setter>
-            <Setter Property="Foreground" Value="#0A67A3"></Setter>
-            <Setter Property="BorderThickness" Value="2"></Setter>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0,20,0,0"/>
+            <Setter Property="Background" Value="#4A90E2"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для текстовых полей -->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#F0F4FF"/>
+            <Setter Property="BorderBrush" Value="#A1C4FD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Стиль для полей пароля -->
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#F0F4FF"/>
+            <Setter Property="BorderBrush" Value="#A1C4FD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Стиль для текстовых блоков -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
 
     </Application.Resources>

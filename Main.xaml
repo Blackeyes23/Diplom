@@ -9,9 +9,9 @@
         Height="600" Width="1000"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
-        Background="SkyBlue">
+        >
 
-    <Border BorderBrush="Blue" BorderThickness="15" Padding="10" Background="SkyBlue">
+    <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -22,7 +22,7 @@
 
             <!-- Левая часть (Фото) -->
             <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
-                <Image Source="Resources/images.png"  Width="200" Margin="10 10 10 10"/>
+                <Image Source="Resources/images.png"  Width="200" Margin="10 40 10 10"/>
                 <Image x:Name="UserPhoto" Source="Resources/DefaultUser.png" Margin="10 10 10 201" Width="200" Height="200" Stretch="UniformToFill"/>
             </StackPanel>
 
@@ -52,7 +52,7 @@
 
                 <!-- Кнопки -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
-                    <Button Content="Практика" Width="120" Height="50" Click="Button_Click_1"/>
+                    <Button Content="Практика"  Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click_1"/>
                     <Button Content="Теория" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click_2"/>
                     <Button Content="Доп.Информация" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click_3"/>
                     <Button Content="Выйти" Width="120" Height="50" Margin="20,0,0,0" Click="Button_Click"/>

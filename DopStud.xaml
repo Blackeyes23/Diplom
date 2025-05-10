@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
-        Title="Просмотр документа" Height="600" Width="800">
+        Title="Просмотр документа" Height="1010" Width="800">
 
-    <Border BorderBrush="Blue" BorderThickness="10" Padding="10" Background="SkyBlue" Margin="0,0,0,-333">
+    <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid>
             <StackPanel Margin="10">
                 <Button Content="Назад" Click="Button_Click" Width="150" Height="30" Margin="0,0,0,10"/>
