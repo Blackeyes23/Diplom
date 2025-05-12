@@ -189,5 +189,12 @@ namespace Diplom
             DopStud dopStud = new DopStud();
             dopStud.Show();
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            CompilerWindow compilerWindow = new CompilerWindow();
+            compilerWindow.Show();
+            this.Close();
+        }
     }
 }
