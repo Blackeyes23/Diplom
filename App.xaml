@@ -7,6 +7,7 @@
 
         <!-- Общий стиль для всех окон -->
         <Style TargetType="Window">
+            <Setter Property="Icon" Value="/Resources/SA.ico"/>
             <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
             <Setter Property="ResizeMode" Value="CanResize"/>
             <Setter Property="MinWidth" Value="450"/>
@@ -46,7 +47,41 @@
                     <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.3"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                    x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="10"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Наведение -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#A3C8F9"/>
+                                <!-- Ярко-светлый синий -->
+                            </Trigger>
+                            <!-- Нажатие -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3A70C2"/>
+                            </Trigger>
+                            <!-- Отключено -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#CCCCCC"/>
+                                <Setter Property="Foreground" Value="#666666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+
+
 
         <!-- Стиль для текстовых полей -->
         <Style TargetType="{x:Type TextBox}">
@@ -56,7 +91,22 @@
             <Setter Property="Background" Value="#F0F4FF"/>
             <Setter Property="BorderBrush" Value="#A1C4FD"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border 
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="5">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+        
+
 
         <!-- Стиль для полей пароля -->
         <Style TargetType="{x:Type PasswordBox}">
@@ -66,7 +116,21 @@
             <Setter Property="Background" Value="#F0F4FF"/>
             <Setter Property="BorderBrush" Value="#A1C4FD"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border 
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="5">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+
 
         <!-- Стиль для текстовых блоков -->
         <Style TargetType="TextBlock">

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
-        Title="TeorStud" Height="450" Width="800" >
+        Title="Теоретический материал" Height="450" Width="800" MinHeight="450"
+        MinWidth="450"
+        Style="{StaticResource {x:Type Window}}">
 
     <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid>

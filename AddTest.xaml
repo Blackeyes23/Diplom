@@ -1,7 +1,14 @@
 ﻿<Window x:Class="Diplom.AddTest"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Добавить тест">
+        Title="Добавить тест"
+        MinHeight="450"
+        MinWidth="450"
+                Style="{StaticResource {x:Type Window}}"
+>
+
+    
+   
 
     <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid Margin="10,10,10,81">
@@ -17,7 +24,7 @@
             <TextBox x:Name="TestNameBox" MaxLength="30" Grid.Row="1" Height="30" Margin="0,5,0,0"/>
 
             <TextBlock Text="Название вопроса:" FontSize="16" FontWeight="Bold" Margin="0,4,0,7" Grid.Row="2"/>
-            <TextBox x:Name="QuestionNameBox" MaxLength="30" Grid.Row="3" Height="30" Margin="0,0,0,207"/>
+            <TextBox x:Name="QuestionNameBox" MaxLength="30" Grid.Row="3" Height="30" Margin="0,-100,0,207"/>
 
             <TextBlock Text="Варианты ответов:" Grid.Row="3" FontSize="16" FontWeight="Bold" Margin="0,146,0,184"/>
             <ListBox x:Name="AnswersListBox" Grid.Row="3" MinHeight="100" Margin="0,47,0,10">

@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Diplom.Model;
+using System;
 using System.Windows;
 
 namespace Diplom
 {
     public partial class CompilerWindow : Window
     {
-        public CompilerWindow()
+        private Users _currentUser;
+
+        public CompilerWindow(Users users)
         {
             InitializeComponent();
+            _currentUser = users;
         }
 
         // Обновляем номер текущей строки
@@ -53,12 +57,19 @@ namespace Diplom
             OutputTextBox.Text = result;
         }
 
-        // Обработчик клика на кнопку "Очистить"
         private void ClearCode_Click(object sender, RoutedEventArgs e)
         {
             CodeTextBox.Clear();
             OutputTextBox.Clear();
             CurrentLineTextBox.Text = "0";
         }
+
+
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); 
+        }
+
     }
 }

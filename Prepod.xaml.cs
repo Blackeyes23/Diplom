@@ -64,7 +64,6 @@ namespace Diplom
         {
             NameText.Text = user.Name;
             SurnameText.Text = user.Surname;
-            GroupText.Text = user.Gruppa != null ? user.Gruppa.Number.ToString() : "Не указано";
             RoleText.Text = user.Role != null ? user.Role.Name.ToString() : "Не указано";
         }
 

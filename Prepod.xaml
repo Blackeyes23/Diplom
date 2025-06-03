@@ -9,7 +9,10 @@
         Height="600" Width="1000"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
-        >
+        MinHeight="450"
+        MinWidth="450"
+        Style="{StaticResource {x:Type Window}}">
+
 
     <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid>
@@ -28,27 +31,24 @@
             </StackPanel>
 
             <!-- Правая часть (Информация + Кнопки) -->
-            <StackPanel Grid.Column="1" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Background="AliceBlue" Grid.Column="1" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <!-- Текстовые данные -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Имя:" FontSize="20" FontWeight="Bold"/>
-                    <TextBlock x:Name="NameText" FontSize="20" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="NameText" FontSize="20" Margin="10,5,0,0"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Фамилия:" FontSize="20" FontWeight="Bold"/>
-                    <TextBlock x:Name="SurnameText" FontSize="20" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="SurnameText" FontSize="20" Margin="10,5,0,0"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Группа:" FontSize="20" FontWeight="Bold"/>
-                    <TextBlock x:Name="GroupText" FontSize="20" Margin="10,0,0,0"/>
-                </StackPanel>
+                
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Роль:" FontSize="20" FontWeight="Bold"/>
-                    <TextBlock x:Name="RoleText" FontSize="20" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="RoleText" FontSize="20" Margin="10,5,0,0"/>
                 </StackPanel>
 
                 <!-- Кнопки -->

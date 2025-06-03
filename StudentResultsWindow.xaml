@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Результаты студентов"
         Height="600" Width="800"
-        >
+        MinHeight="450"
+        MinWidth="450"
+        Style="{StaticResource {x:Type Window}}">
 
     <Border Style="{StaticResource RoundedBorderStyle}">
         <Grid Margin="20">

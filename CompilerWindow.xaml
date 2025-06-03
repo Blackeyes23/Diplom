@@ -3,43 +3,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Компилятор" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
-        MinHeight="450" MinWidth="450">
+        MinHeight="450" MinWidth="450"
+        Style="{StaticResource {x:Type Window}}">
+
+
+    
     <Border Style="{StaticResource RoundedBorderStyle}">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="239*"/>
+                <ColumnDefinition Width="109*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <TextBlock Text="Введите код C#:" FontSize="16" Margin="0,0,0,10"/>
+            <TextBlock Text="Введите код C#:" FontSize="16" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
 
-        <!-- Поле для ввода кода -->
-        <TextBox x:Name="CodeTextBox" Grid.Row="1" Height="200"
+            <!-- Поле для ввода кода -->
+            <TextBox x:Name="CodeTextBox" Height="200"
                  AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
-                 FontFamily="Consolas" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10"
+                 FontFamily="Consolas" FontSize="14" TextWrapping="Wrap" Margin="0,31,0,60"
                  TextChanged="CodeTextBox_TextChanged" 
-                 SelectionChanged="CodeTextBox_SelectionChanged"/>
+                 SelectionChanged="CodeTextBox_SelectionChanged" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
 
-        <!-- Поле для отображения текущей строки -->
-        <TextBox x:Name="CurrentLineTextBox" Grid.Row="1" 
+            <!-- Поле для отображения текущей строки -->
+            <TextBox x:Name="CurrentLineTextBox" 
                  Width="50" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                 Margin="210,13,0,0" IsReadOnly="True" FontSize="14" TextAlignment="Center"/>
+                 Margin="233,31,0,0" IsReadOnly="True" FontSize="14" TextAlignment="Center" Grid.RowSpan="2"/>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0" >
-            <Button Content="Компилировать и выполнить" 
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="110,10,0,0" Grid.ColumnSpan="2" >
+                <Button Content="Компилировать и выполнить" 
                     Width="242" Height="40" Margin="0 20 10 0"
                     Click="CompileAndRun_Click"/>
-            <Button Content="Очистить" 
+                <Button Content="Очистить" 
                     Width="100" Height="40" 
                     Click="ClearCode_Click"/>
-        </StackPanel>
+                <Button Content="Назад" Margin="15 20 10 0" 
+                    Width="100" Height="40" 
+                    Click="Exit_Click"/>
+            </StackPanel>
 
-        <TextBox x:Name="OutputTextBox" Grid.Row="3" Height="200"
+            <TextBox x:Name="OutputTextBox" Grid.Row="3" Height="200"
                  IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                  FontFamily="Consolas" FontSize="14" 
-                 TextWrapping="Wrap" Margin="0,10,0,0"/>
-    </Grid>
+                 TextWrapping="Wrap" Margin="0,10,0,-20" Grid.ColumnSpan="2"/>
+        </Grid>
     </Border>
 </Window>

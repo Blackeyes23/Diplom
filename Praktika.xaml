@@ -1,7 +1,12 @@
 ﻿<Window x:Class="Diplom.Praktika"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="450" Width="800" >
+        Height="650"  Width="800" MinHeight="550"
+        Title="Практическое тестирование"
+        MinWidth="450"
+        Style="{StaticResource {x:Type Window}}">
+
+   
     <Border  Style="{StaticResource RoundedBorderStyle}">
         <Grid>
             <StackPanel Margin="20">

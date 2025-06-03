@@ -5,9 +5,6 @@ using System.Windows;
 using Diplom.Model;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Exchange.WebServices.Data;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Core;
 
 namespace Diplom
 {
@@ -24,9 +21,6 @@ namespace Diplom
             this.WindowState = WindowState.Maximized;
 
         }
-
-
-
         private void DisplayUserInfo(Diplom.Model.Users user)
         {
             NameText.Text = user.Name;
@@ -35,21 +29,14 @@ namespace Diplom
             RoleText.Text = user.Role != null ? user.Role.Name.ToString() : "Не указано";
         }
 
-
-
-        
-
-
-
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            // Проверяем, открыто ли уже окно Teor
             foreach (Window window in Application.Current.Windows)
             {
                 if (window is TeorStud)
                 {
-                    window.Activate(); // Переключаемся на уже открытое окно
-                    return; // Прекращаем выполнение метода
+                    window.Activate(); 
+                    return; 
                 }
             }
 
@@ -61,11 +48,9 @@ namespace Diplom
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Открытие главного окна
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
 
-            // Закрытие всех окон, кроме главного
             foreach (Window window in Application.Current.Windows)
             {
                 if (window != mainWindow)
@@ -79,13 +64,12 @@ namespace Diplom
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            // Проверяем, открыто ли уже окно Teor
             foreach (Window window in Application.Current.Windows)
             {
                 if (window is Praktika)
                 {
-                    window.Activate(); // Переключаемся на уже открытое окно
-                    return; // Прекращаем выполнение метода
+                    window.Activate(); 
+                    return;
                 }
             }
             if (_currentUser != null)
@@ -104,14 +88,12 @@ namespace Diplom
             {
                 using (var context = new VPKSContext())
                 {
-                    // Загружаем все результаты пользователя и связанные тесты + группы
                     var results = context.TestResults
                         .Include(r => r.Test)
                             .ThenInclude(t => t.TestGroup)
                         .Where(r => r.UserId == user.Id)
                         .ToList(); // загружаем в память
 
-                    // Группируем уже в памяти
                     var groupedResults = results
                         .GroupBy(r => r.TestId)
                         .ToList();
@@ -175,13 +157,12 @@ namespace Diplom
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            // Проверяем, открыто ли уже окно Teor
             foreach (Window window in Application.Current.Windows)
             {
                 if (window is DopStud)
                 {
-                    window.Activate(); // Переключаемся на уже открытое окно
-                    return; // Прекращаем выполнение метода
+                    window.Activate(); 
+                    return;
                 }
             }
 
@@ -192,9 +173,18 @@ namespace Diplom
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            CompilerWindow compilerWindow = new CompilerWindow();
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is CompilerWindow)
+                {
+                    window.Activate();
+                    return;
+                }
+            }
+
+            CompilerWindow compilerWindow = new CompilerWindow(_currentUser); 
             compilerWindow.Show();
-            this.Close();
+
         }
     }
 }
